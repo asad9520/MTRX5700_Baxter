@@ -8,7 +8,7 @@ please update folders to the Github after sampling has been done.
                                                                 --Hana
 '''
 
-imagecount = 500
+imagecount = 1000
 cap = cv2.VideoCapture(0)
 
 #path of classfier should be changed to the corresponding saving path of haarcascade_frontalface_default.xml, this path only exists in Hana's laptop
@@ -27,7 +27,7 @@ def main():
 	if ret:        
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		faceRects = classfier.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=3, minSize=(32, 32))
+		faceRects = classfier.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=20, minSize=(32, 32))
 		
 		if len(faceRects) > 0:
 		    for faceRect in faceRects:
