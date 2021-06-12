@@ -16,33 +16,30 @@ classfier = cv2.CascadeClassifier("D:\opencv\opencv\sources\data\haarcascades\ha
 
 #get current path
 current_path = os.getcwd()
-path = current_path + '/train'
+path = current_path + '/train2'
 
 def main():
     if not os.path.exists(path):
-        os.mkdir(current_path + '/train')#create a folder called 'train'
+        os.mkdir(current_path + '/train2')#create a folder called 'train'
     count = 0
     while True:
         ret, frame = cap.read()
-	if ret:        
-		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		faceRects = classfier.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=20, minSize=(32, 32))
-		
-		if len(faceRects) > 0:
-		    for faceRect in faceRects:
-		        x, y, w, h = faceRect
-		        cv2.rectangle(frame, (x - 10, y - 10), (x + w + 10, y + h + 10), (0, 255, 0), 2)
-		        count += 1
-		        face_gray = gray[(y - 10):(y + h + 10), (x - 10): (x + w + 10)]
-		        cv2.imwrite(path + '/' + str(count) + '.jpg' , face_gray)
-		        print("image {} is stored successfully!".format(count))
-		
-		cv2.imshow('frame', frame)
-		if cv2.waitKey(1) & 0xFF == ord('q') or count >= imagecount:
-		    break
-	else:
-		break
+        faceRects = classfier.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=15, minSize=(32, 32))
+        
+        if len(faceRects) > 0:
+            for faceRect in faceRects:
+                x, y, w, h = faceRect
+                cv2.rectangle(frame, (x - 10, y - 10), (x + w + 10, y + h + 10), (0, 255, 0), 2)
+                count += 1
+                face_gray = gray[(y - 10):(y + h + 10), (x - 10): (x + w + 10)]
+                cv2.imwrite(path + '/' + str(count) + '.jpg' , face_gray)
+                print("image {} is stored successfully!".format(count))
+        
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q') or count >= imagecount:
+            break
 
     cap.release()
     cv2.destroyAllWindows()
